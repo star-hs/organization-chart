@@ -4,78 +4,124 @@ export interface Data {
   children: any
 }
 
-export function generateOrgChartData(depth) {
+export function generateOrgChartData() {
   let data: Data
   data = {
-    name: 'Lao Lao',
-    title: 'general manager',
+    name: '北京工程院',
+    title: 'a',
     children: [
-      { name: 'Bo Miao', title: 'department manager' },
       {
-        name: 'Su Miao',
-        title: 'department manager',
-        children: [
-          { name: 'Tie Hua', title: 'senior engineer' },
-          {
-            name: 'Hei Hei',
-            title: 'senior engineer',
-            children: [
-              { name: 'Pang Pang', title: 'engineer' },
-              { name: 'Xiang Xiang', title: 'UE engineer' }
-            ]
+        name: '医疗',
+        title: 'a',
+        children: [{
+            name: '叶奇意',
+            title: 'a'
+          },{
+            name: '马春萌',
+            title: 'a'
+          },{
+            name: '贾志杰',
+            title: 'a'
+          },{
+            name: '冯亮',
+            title: 'a',
+            children: [{
+              name: '曾宥葳',
+              title: 'a'
+            }, {
+              name: '黄山',
+              title: 'a'
+            }]
           }
         ]
       },
-      { name: 'Hong Miao', title: 'department manager' }
+      {
+        name: '机器人',
+        title: 'a'
+
+      },
+      {
+        name: 'HR',
+        title: 'a'
+
+      },
+      {
+        name: 'IT',
+        title: 'a'
+      }
     ]
   }
+  // data = {
+  //   name: 'Lao Lao',
+  //   title: 'general manager',
+  //   children: [
+  //     { name: 'Bo Miao', title: 'department manager' },
+  //     {
+  //       name: 'Su Miao',
+  //       title: 'department manager',
+  //       children: [
+  //         { name: 'Tie Hua', title: 'senior engineer' },
+  //         {
+  //           name: 'Hei Hei',
+  //           title: 'senior engineer',
+  //           children: [
+  //             { name: 'Pang Pang', title: 'engineer' },
+  //             { name: 'Xiang Xiang', title: 'UE engineer' }
+  //           ]
+  //         }
+  //       ]
+  //     },
+  //     { name: 'Hong Miao', title: 'department manager' }
+  //   ]
+  // }
 
-  for (let i = 0; i < 3; i++) {
-    data['children'].push({
-      name: 'Lao Lao',
-      title: 'general manager',
-      children: [
-        { name: 'Bo Miao', title: 'department manager' },
-        {
-          name: 'Su Miao',
-          title: 'department manager',
-          children: [{ name: 'Tie Hua', title: 'senior engineer' }]
-        }
-      ]
-    })
-  }
+  // for (let i = 0; i < 3; i++) {
+  //   data['children'].push({
+  //     name: 'Lao Lao',
+  //     title: 'general manager',
+  //     children: [
+  //       { name: 'Bo Miao', title: 'department manager' },
+  //       {
+  //         name: 'Su Miao',
+  //         title: 'department manager',
+  //         children: [{ name: 'Tie Hua', title: 'senior engineer' }]
+  //       }
+  //     ]
+  //   })
+  // }
 
-  let temp = data
-  for (let i = 0; i < depth; i++) {
-    if (!temp.children) {
-      temp.children = []
-    }
-    temp.children.push({
-      name: 'Lao Lao',
-      title: 'general manager',
-      children: [
-        { name: 'Bo Miao', title: 'department manager' },
-        {
-          name: 'Su Miao',
-          title: 'department manager',
-          children: [
-            { name: 'Tie Hua', title: 'senior engineer' },
-            {
-              name: 'Hei Hei',
-              title: 'senior engineer',
-              children: [{ name: 'Xiang Xiang', title: 'UE engineer' }]
-            }
-          ]
-        }
-      ]
-    })
-    temp = temp.children[0]
-  }
-  return data
+  // let temp = data
+  // for (let i = 0; i < depth; i++) {
+  //   if (!temp.children) {
+  //     temp.children = []
+  //   }
+  //   temp.children.push({
+  //     name: 'Lao Lao',
+  //     title: 'general manager',
+  //     children: [
+  //       { name: 'Bo Miao', title: 'department manager' },
+  //       {
+  //         name: 'Su Miao',
+  //         title: 'department manager',
+  //         children: [
+  //           { name: 'Tie Hua', title: 'senior engineer' },
+  //           {
+  //             name: 'Hei Hei',
+  //             title: 'senior engineer',
+  //             children: [{ name: 'Xiang Xiang', title: 'UE engineer' }]
+  //           }
+  //         ]
+  //       }
+  //     ]
+  //   })
+  //   temp = temp.children[0]
+  // }
+
+  return data;
 }
 
-export function generateOrgChartDataFolded(depth, foldDepth) {
-  let data = this.generateOrgChartData(depth)
+export function generateOrgChartDataFolded(foldDepth) {
+  let data = this.generateOrgChartData()
   let tempNode = data
   for (let i = 0; i < foldDepth && tempNode.children; i++) {
     tempNode = tempNode.children[0]

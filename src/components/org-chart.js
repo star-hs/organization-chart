@@ -344,7 +344,7 @@ class OrgChart {
         20
       )
     })
-  }
+  }    
 
   /**
    * fill the node outline with colorKey color
@@ -373,6 +373,9 @@ class OrgChart {
     this.setClickListener()
     this.setDragListener()
     this.setMouseWheelZoomListener()
+    this.setRightClickListener()
+    this.setDblClickListener()
+    
   }
 
   setClickListener() {
@@ -389,6 +392,28 @@ class OrgChart {
         // self.hideChildren(treeNodeData, true)
         self.toggleTreeNode(node.data()[0])
         self.update(node.data()[0])
+      }
+    })
+  }
+  setDblClickListener() {
+    this.canvasNode.node().addEventListener('dblclick', e => {
+      console.log("双击");
+
+    })
+  }
+  // setContextmenuListener() {
+
+  //   this.canvasNode.node().addEventListener('contextmenu', e => {
+  //     //e.preventDefault();
+  //     console.log("监听到菜单");
+  //   })
+    
+  // }
+  setRightClickListener() {
+    this.canvasNode.node().addEventListener('mousedown', e => {
+      if(e.button == 2) {
+        e.preventDefault();
+        console.log("监听到右键点击");
       }
     })
   }
