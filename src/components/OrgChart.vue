@@ -6,7 +6,7 @@
         <v-btn @click="smaller()">-</v-btn>
       </v-layout>
 
-      <v-card>
+      <!-- <v-card>
         <v-card-title>
           <div slot="header" class="action-title">
             <span>Support actions</span>
@@ -15,7 +15,7 @@
             {{'* ' + action}}
           </div>
         </v-card-title>
-      </v-card>
+      </v-card> -->
     </div>
   </div>
 </template>
@@ -44,16 +44,16 @@ export default Vue.extend({
     }
   },
   created() {
-    this.data = generateOrgChartData(10)
+    this.data = generateOrgChartData()
   },
   mounted() {
     this.orgChart = new OrgChart()
     this.orgChart.draw(this.data)
   },
   methods: {
-    test() {
-      this.orgChart.draw(this.data)
-    },
+    // test() {
+    //   this.orgChart.draw(this.data)
+    // },
     bigger() {
       this.orgChart.bigger()
     },

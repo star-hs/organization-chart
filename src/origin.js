@@ -37,7 +37,7 @@ function drawCustom (data) {
 }
 
 function drawCanvas () {
-  // clear canvas
+  // clear canvas, 初始化成纯白背景
   context.fillStyle = '#fff'
   context.rect(0, 0, chart.attr('width'), chart.attr('height'))
   context.fill()
@@ -49,8 +49,10 @@ function drawCanvas () {
     context.beginPath()
     context.fillStyle = node.attr('fillStyle')
     context.rect(node.attr('x'), node.attr('y'), node.attr('size'), node.attr('size'))
+    //console.table(node.attr);
     context.fill()
     context.closePath()
+    
   })
 }
 

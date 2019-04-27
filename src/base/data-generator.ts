@@ -1,6 +1,7 @@
 export interface Data {
   name: string
   title: string
+  img: string
   children: any
 }
 
@@ -9,114 +10,59 @@ export function generateOrgChartData() {
   data = {
     name: '北京工程院',
     title: 'a',
+    img: 'https://avatars3.githubusercontent.com/u/10973821?s=460&v=4',
     children: [
       {
         name: '医疗',
         title: 'a',
+        img: 'https://p.ssl.qhimg.com/dmfd/400_300_/t01f7fd2a2fec1eacde.jpg',
         children: [{
             name: '叶奇意',
-            title: 'a'
+            title: 'a',
+            img: 'https://ps.ssl.qhimg.com/dmfd/420_627_/t017dd6c89c1d818a2d.jpg'
           },{
             name: '马春萌',
-            title: 'a'
+            title: 'a',
+            img: ''
           },{
             name: '贾志杰',
-            title: 'a'
+            title: 'a',
+            img: 'https://ps.ssl.qhimg.com/dmfd/210_259_/t01a556f4f4eaf1b669.jpg'
           },{
             name: '冯亮',
             title: 'a',
-            children: [{
-              name: '曾宥葳',
-              title: 'a'
-            }, {
-              name: '黄山',
-              title: 'a'
-            }]
+            img: 'https://ps.ssl.qhimg.com/dmfd/364_259_/t01a4ad20545ed7aabe.jpg',
+            // children: [{
+            //   name: '曾宥葳',
+            //   title: 'a',
+            //   img: ''
+            // }, {
+            //   name: '黄山',
+            //   title: 'a',
+            //   img: ''
+            // }]
           }
         ]
       },
-      {
-        name: '机器人',
-        title: 'a'
+      // {
+      //   name: '机器人',
+      //   title: 'a',
+      //   img: ''
 
-      },
-      {
-        name: 'HR',
-        title: 'a'
+      // },
+      // {
+      //   name: 'HR',
+      //   title: 'a',
+      //   img: ''
 
-      },
-      {
-        name: 'IT',
-        title: 'a'
-      }
+      // },
+      // {
+      //   name: 'IT',
+      //   title: 'a',
+      //   img: ''
+      // }
     ]
   }
-  // data = {
-  //   name: 'Lao Lao',
-  //   title: 'general manager',
-  //   children: [
-  //     { name: 'Bo Miao', title: 'department manager' },
-  //     {
-  //       name: 'Su Miao',
-  //       title: 'department manager',
-  //       children: [
-  //         { name: 'Tie Hua', title: 'senior engineer' },
-  //         {
-  //           name: 'Hei Hei',
-  //           title: 'senior engineer',
-  //           children: [
-  //             { name: 'Pang Pang', title: 'engineer' },
-  //             { name: 'Xiang Xiang', title: 'UE engineer' }
-  //           ]
-  //         }
-  //       ]
-  //     },
-  //     { name: 'Hong Miao', title: 'department manager' }
-  //   ]
-  // }
-
-  // for (let i = 0; i < 3; i++) {
-  //   data['children'].push({
-  //     name: 'Lao Lao',
-  //     title: 'general manager',
-  //     children: [
-  //       { name: 'Bo Miao', title: 'department manager' },
-  //       {
-  //         name: 'Su Miao',
-  //         title: 'department manager',
-  //         children: [{ name: 'Tie Hua', title: 'senior engineer' }]
-  //       }
-  //     ]
-  //   })
-  // }
-
-  // let temp = data
-  // for (let i = 0; i < depth; i++) {
-  //   if (!temp.children) {
-  //     temp.children = []
-  //   }
-  //   temp.children.push({
-  //     name: 'Lao Lao',
-  //     title: 'general manager',
-  //     children: [
-  //       { name: 'Bo Miao', title: 'department manager' },
-  //       {
-  //         name: 'Su Miao',
-  //         title: 'department manager',
-  //         children: [
-  //           { name: 'Tie Hua', title: 'senior engineer' },
-  //           {
-  //             name: 'Hei Hei',
-  //             title: 'senior engineer',
-  //             children: [{ name: 'Xiang Xiang', title: 'UE engineer' }]
-  //           }
-  //         ]
-  //       }
-  //     ]
-  //   })
-  //   temp = temp.children[0]
-  // }
-
   return data;
 }
 

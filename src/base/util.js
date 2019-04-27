@@ -22,6 +22,32 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, fontColor) {
     }
   }
   context.fillText(line, x, y)
+  // console.log('wrap')
+}
+
+let imgset = new Map() // 存储所有图片
+//let urlset = [];  //存储所有已经创建过的图片的url
+
+function createImg(url) {
+  let img = new Image()
+  img.src = url
+  console.log('img------------', img)
+  imgset.set(url, img)
+  console.log(imgset)
+}
+
+function getImg(url) {
+  return imgset.get(url)
+}
+
+function drawImg(ctx, img, x, y, width, height) {
+  // let img = new Image()
+  // img.src = url
+  console.log(typeof img);
+  img.onload = function() {
+    ctx.drawImage(img, x, y, width, height)
+    //console.log('is drawing')
+  }
 }
 
 function roundRect(context, x, y, width, height, radius, fill, stroke) {
@@ -65,6 +91,11 @@ function roundRect(context, x, y, width, height, radius, fill, stroke) {
 export default {
   ...colorUtil,
   text,
+  roundRect,
+  drawImg,
   wrapText,
-  roundRect
+  imgset,
+  createImg,
+  getImg
+  
 }

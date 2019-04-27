@@ -31,16 +31,19 @@ class OrgChart {
   }
 
   draw(data) {
+    console.log('draw data')
     this.data = this.d3.hierarchy(data)
-    this.treeGenerator = this.d3
-      .tree()
+    this.treeGenerator = d3.tree()
       .nodeSize([this.nodeWidth, this.nodeHeight])
     this.update()
 
     let self = this
-    this.d3.timer(function() {
+    // this.d3.timer(function() {
+    //   self.drawCanvas()
+    // }, 5000)
+    this.d3.interval(() => {
       self.drawCanvas()
-    })
+    }, 500)
   }
 
   update(targetTreeNode) {
@@ -227,21 +230,25 @@ class OrgChart {
 
   initCanvas() {
     this.container = this.d3.select('#org-chart-container')
+    console.log('this.container',this.container)
     this.canvasNode = this.container
       .append('canvas')
       .attr('class', 'orgChart')
       .attr('width', this.width)
       .attr('height', this.height)
-    this.hiddenCanvasNode = this.container
-      .append('canvas')
-      .attr('class', 'orgChart')
-      .attr('width', this.width)
-      .attr('height', this.height)
-      .style('display', '')
+    console.log('this.canvasNode.node()', this.canvasNode.node())
+    //底下的彩色节点
+    // this.hiddenCanvasNode = this.container
+    //   .append('canvas')
+    //   .attr('class', 'orgChart')
+    //   .attr('width', this.width)
+    //   .attr('height', this.height)
+    //   .style('display', '')
     this.context = this.canvasNode.node().getContext('2d')
     this.context.translate(this.width / 2, this.padding)
-    this.hiddenContext = this.hiddenCanvasNode.node().getContext('2d')
-    this.hiddenContext.translate(this.width / 2, this.padding)
+    // console.log('this.hiddenCanvasNode.node()', this.hiddenCanvasNode.node())
+    // this.hiddenContext = this.hiddenCanvasNode.node().getContext('2d')
+    // this.hiddenContext.translate(this.width / 2, this.padding)
   }
 
   initVirtualNode() {
@@ -249,17 +256,20 @@ class OrgChart {
     this.virtualContainerNode = this.d3.select(virtualContainer)
     this.colorNodeMap = {}
   }
-
+  
   addColorKey() {
     // give each node a unique color
     let self = this
+    console.log('virtualContainerNode',this.virtualContainerNode)
     this.virtualContainerNode.selectAll('.orgUnit').each(function() {
+      console.log('this', this)
       let node = self.d3.select(this)
       let newColor = Util.randomColor()
-      while (self.colorNodeMap[newColor]) {
+      while(self.colorNodeMap[newColor]) {
         newColor = Util.randomColor()
       }
       node.attr('colorKey', newColor)
+      console.log('node.data()',node.data())
       node.data()[0]['colorKey'] = newColor
       self.colorNodeMap[newColor] = node
     })
@@ -277,10 +287,11 @@ class OrgChart {
 
   drawCanvas() {
     this.drawShowCanvas()
-    this.drawHiddenCanvas()
+    // this.drawHiddenCanvas()
   }
 
   drawShowCanvas() {
+    console.log('draw show canvas')
     this.context.clearRect(-50000, -10000, 100000, 100000)
 
     let self = this
@@ -289,6 +300,7 @@ class OrgChart {
       let node = self.d3.select(this)
       let linkPath = self.d3
         .linkVertical()
+        //  ??????????????????????????????????????????????????????????????
         .x(function(d) {
           return d.x
         })
@@ -324,6 +336,22 @@ class OrgChart {
         true,
         false
       )
+      console.log(Util.imgset.get(data.img))
+      if(Util.imgset.get(data.img) == undefined) {
+        console.log('dont have')
+        Util.createImg(data.img)
+      }
+      
+      
+      
+      Util.drawImg(
+        self.context,
+        Util.imgset.get(data.img),
+        indexX,
+        indexY,
+        self.unitPadding,
+        self.unitHeight
+      )
 
       Util.text(
         self.context,
@@ -333,6 +361,7 @@ class OrgChart {
         '20px',
         '#ffffff'
       )
+
       // Util.text(self.context, data.title, indexX + self.unitPadding, indexY + self.unitPadding + 30, '20px', '#000000')
       let maxWidth = self.unitWidth - 2 * self.unitPadding
       Util.wrapText(
@@ -343,31 +372,38 @@ class OrgChart {
         maxWidth,
         20
       )
+
+      // Util.wrapText(
+      //   self.context,
+      //   data.title,
+      //   indexX + self.unitPadding + 30,
+      //   indexY + self.unitPadding + 24 + 30,
+      //   maxWidth,
+      //   20
+      // )
+
     })
   }    
 
-  /**
-   * fill the node outline with colorKey color
-   */
-  drawHiddenCanvas() {
-    this.hiddenContext.clearRect(-50000, -10000, 100000, 100000)
+  // drawHiddenCanvas() {
+  //   this.hiddenContext.clearRect(-50000, -10000, 100000, 100000)
 
-    let self = this
-    this.virtualContainerNode.selectAll('.orgUnit').each(function() {
-      let node = self.d3.select(this)
-      self.hiddenContext.fillStyle = node.attr('colorKey')
-      Util.roundRect(
-        self.hiddenContext,
-        Number(node.attr('x')) - self.unitWidth / 2,
-        Number(node.attr('y')) - self.unitHeight / 2,
-        self.unitWidth,
-        self.unitHeight,
-        4,
-        true,
-        false
-      )
-    })
-  }
+  //   let self = this
+  //   this.virtualContainerNode.selectAll('.orgUnit').each(function() {
+  //     let node = self.d3.select(this)
+  //     self.hiddenContext.fillStyle = node.attr('colorKey')
+  //     Util.roundRect(
+  //       self.hiddenContext,
+  //       Number(node.attr('x')) - self.unitWidth / 2,
+  //       Number(node.attr('y')) - self.unitHeight / 2,
+  //       self.unitWidth,
+  //       self.unitHeight,
+  //       4,
+  //       true,
+  //       false
+  //     )
+  //   })
+  // }
 
   setCanvasListener() {
     this.setClickListener()
@@ -375,12 +411,12 @@ class OrgChart {
     this.setMouseWheelZoomListener()
     this.setRightClickListener()
     this.setDblClickListener()
-    
   }
 
   setClickListener() {
     let self = this
     this.canvasNode.node().addEventListener('click', e => {
+      console.log('e', e)
       let colorStr = Util.getColorStrFromCanvas(
         self.hiddenContext,
         e.layerX,
@@ -390,6 +426,7 @@ class OrgChart {
       if (node) {
         // let treeNodeData = node.data()[0]
         // self.hideChildren(treeNodeData, true)
+        console.log('node', node)
         self.toggleTreeNode(node.data()[0])
         self.update(node.data()[0])
       }
@@ -397,23 +434,14 @@ class OrgChart {
   }
   setDblClickListener() {
     this.canvasNode.node().addEventListener('dblclick', e => {
-      console.log("双击");
-
+      console.log('双击')
     })
   }
-  // setContextmenuListener() {
-
-  //   this.canvasNode.node().addEventListener('contextmenu', e => {
-  //     //e.preventDefault();
-  //     console.log("监听到菜单");
-  //   })
-    
-  // }
   setRightClickListener() {
     this.canvasNode.node().addEventListener('mousedown', e => {
-      if(e.button == 2) {
-        e.preventDefault();
-        console.log("监听到右键点击");
+      if (e.button === 2) {
+        e.preventDefault()
+        console.log('监听到右键点击')
       }
     })
   }
@@ -448,10 +476,10 @@ class OrgChart {
         (e.x - self.dragStartPoint_.x) / self.scale,
         (e.y - self.dragStartPoint_.y) / self.scale
       )
-      self.hiddenContext.translate(
-        (e.x - self.dragStartPoint_.x) / self.scale,
-        (e.y - self.dragStartPoint_.y) / self.scale
-      )
+      // self.hiddenContext.translate(
+      //   (e.x - self.dragStartPoint_.x) / self.scale,
+      //   (e.y - self.dragStartPoint_.y) / self.scale
+      // )
       self.dragStartPoint_.x = e.x
       self.dragStartPoint_.y = e.y
     }
@@ -484,7 +512,7 @@ class OrgChart {
     this.clearCanvas_()
     this.scale = (this.scale * 5) / 4
     this.context.scale(5 / 4, 5 / 4)
-    this.hiddenContext.scale(5 / 4, 5 / 4)
+    // this.hiddenContext.scale(5 / 4, 5 / 4)
   }
 
   smaller() {
@@ -493,12 +521,12 @@ class OrgChart {
 
     this.scale = (this.scale * 4) / 5
     this.context.scale(4 / 5, 4 / 5)
-    this.hiddenContext.scale(4 / 5, 4 / 5)
+    // this.hiddenContext.scale(4 / 5, 4 / 5)
   }
 
   clearCanvas_() {
     this.context.clearRect(-1000000, -10000, 2000000, 2000000)
-    this.hiddenContext.clearRect(-1000000, -10000, 2000000, 2000000)
+    // this.hiddenContext.clearRect(-1000000, -10000, 2000000, 2000000)
   }
 }
 

@@ -38,6 +38,8 @@ export function getColorStrFromCanvas(
   yIndex: number
 ): string {
   let pixelData = context.getImageData(xIndex, yIndex, 1, 1).data
+  // getImageData: 对于 ImageData 对象中的每个像素，都存在着四方面的信息，即 RGBA 值：
+  //对应rgb,每个两位，转化成16进制的，调用appendFront0。只有一位的话，补零
   return (
     '#' +
     appendFront0(pixelData[0].toString(16)) +
